@@ -98,7 +98,7 @@ class YOLO_np(object):
         return yolo_model
 
 
-    def detect_image(self, image):
+    def detect_image(self, image, return_classes=False):
         if self.model_image_size != (None, None):
             assert self.model_image_size[0]%32 == 0, 'Multiples of 32 required'
             assert self.model_image_size[1]%32 == 0, 'Multiples of 32 required'
@@ -109,13 +109,15 @@ class YOLO_np(object):
 
         start = time.time()
         out_boxes, out_classes, out_scores = self.predict(image_data, image_shape)
-        print('Found {} boxes for {}'.format(len(out_boxes), 'img'))
+        # print('Found {} boxes for {}'.format(len(out_boxes), 'img'))
         end = time.time()
-        print("Inference time: {:.8f}s".format(end - start))
+        # print("Inference time: {:.8f}s".format(end - start))
 
         #draw result on input image
         image_array = np.array(image, dtype='uint8')
         image_array = draw_boxes(image_array, out_boxes, out_classes, out_scores, self.class_names, self.colors)
+        if return_classes:
+            return (out_boxes, out_classes, out_scores)
         return Image.fromarray(image_array)
 
 

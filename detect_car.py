@@ -8,9 +8,9 @@ def car_on_image(path):
 
     out_boxes, out_classes, out_scores = yolo.detect_image(img, True) 
 
-    print(model_output[0])
-    print(model_output[1])
-    print(model_output[2])
+    print(out_boxes)
+    print(out_classes)
+    print(out_scores)
 
     for i in range(len(out_classes)):
         if out_classes[i] == 2:
